@@ -1,0 +1,64 @@
+services:
+  # ========== Off-the-shelf tools ==========
+
+  gateway:
+    image: nginx
+    restart: always
+    ports:
+      - ${GATEWAY_PORT}:80
+    volumes:
+      - ./gateway/:/etc/nginx/templates
+    env_file: .env
+    depends_on:
+      - graphql-api
+      - web-app
+
+  sql-db:
+    image: postgres
+    env_file: .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./persist/sql-db:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:8080
+    depends_on:
+      sql-db:
+        condition: service_healthy
+    profiles:
+      - dev
+
+  # ========== Custom containers ==========
+
+  web-app:
+    build: ./web-app
+    command: npm run dev
+    env_file: .env
+    volumes:
+      - ./web-app/src:/app/src/
+    restart: always
+
+  graphql-api:
+    build: ./graphql-api
+    command: npm run dev
+    env_file: .env
+    volumes:
+      - ./graphql-api/src:/app/src/
+    depends_on:
+      sql-db:
+        condition: service_healthy
+
+  # files:
+  #   build: ./files
+  #   volumes:
+  #     - ./files/src:/app/src
+  #     - ./data/uploads:/app/uploads
+  #   env_file:
+  #     - .env
