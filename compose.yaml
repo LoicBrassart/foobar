@@ -1,6 +1,4 @@
 services:
-  # ========== Off-the-shelf tools ==========
-
   gateway:
     image: nginx
     restart: always
@@ -35,8 +33,6 @@ services:
     profiles:
       - dev
 
-  # ========== Custom containers ==========
-
   web-app:
     build: ./web-app
     command: npm run dev
@@ -51,6 +47,7 @@ services:
     env_file: .env
     volumes:
       - ./graphql-api/src:/app/src/
+      - ./graphql-api/prisma:/app/prisma/
     depends_on:
       sql-db:
         condition: service_healthy
