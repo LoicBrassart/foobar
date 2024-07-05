@@ -1,4 +1,4 @@
-.PHONY: dev prod clean stop
+.PHONY: dev prod clean stop enter
 
 dev:
 	docker compose --profile dev up
@@ -11,3 +11,6 @@ clean:
 
 stop:
 	docker stop $(shell docker ps -a -q)
+
+enter:
+	docker exec -it $(target) sh
