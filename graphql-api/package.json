@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/index.ts"
+    "dev": "node --watch --loader=ts-node/esm ./src/index.ts"
   },
   "keywords": [],
   "author": "",

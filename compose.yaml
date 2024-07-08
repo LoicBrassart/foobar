@@ -47,7 +47,6 @@ services:
     env_file: .env
     volumes:
       - ./graphql-api/src:/app/src/
-      - ./graphql-api/prisma:/app/prisma/
     depends_on:
       sql-db:
         condition: service_healthy
