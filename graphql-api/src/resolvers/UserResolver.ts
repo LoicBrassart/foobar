@@ -52,10 +52,7 @@ function getUserTokenContent(user: User) {
 class UserResolver {
   @Query(() => [User])
   async getAllUsers() {
-    return (await User.find()).map((user) => ({
-      id: user.id,
-      roles: user.roles,
-    }));
+    return await User.find();
   }
 
   @Mutation(() => String)

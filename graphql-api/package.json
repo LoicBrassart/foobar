@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch --loader=ts-node/esm ./src/index.ts"
+    "dev": "nodemon --exec ts-node -- ./src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,7 @@
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.9",
+    "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3"
   }
