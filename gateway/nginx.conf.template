@@ -8,10 +8,6 @@ http {
             proxy_pass http://graphql-api:${GRAPHAPI_PORT};
         }
 
-#        location /files {
-#            proxy_pass http://files:4567;
-#        }
-
         # default redirection
         location / {
             proxy_pass http://web-app:${WEBAPP_PORT};

@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [formContent, setFormContent] = useState("");
+
+  const hSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target as HTMLFormElement);
+    const formJson = Object.fromEntries(formData.entries());
+    console.log(formJson);
+  };
+
+  const hChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (evt.target.value) setFormContent(evt.target.value);
+  };
 
   return (
     <>
@@ -21,12 +33,12 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <form onSubmit={hSubmit}>
+          <input type="text" onChange={hChange} placeholder="Type anything" />
+        </form>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Here's the content of your input: {formContent}
       </p>
     </>
   );
